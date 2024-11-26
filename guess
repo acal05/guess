@@ -1,0 +1,62 @@
+import random
+import math
+
+def get_guess(prompt):
+    while True:
+        user_input = input(prompt)
+        if user_input.lower() == 'q':
+            return 'q'
+        try:
+            number = int(user_input)
+            if 10 <= number <= 100:
+                return number
+            else:
+                print("Oops! Enter a number between 10 and 100.")
+        except ValueError:
+            print("Invalid input! Make sure it's a number between 10 and 100.")
+
+def run_game():
+    number_to_guess = random.randint(10, 100)
+    sqrt_value = math.sqrt(number_to_guess)
+    print(f"The square root is approximately {sqrt_value:.14f}.")
+    print("What's the number?")
+    attempts = 0
+    while True:
+        player_guess = get_guess("Your answer: ")
+        if player_guess == 'q':
+            return None
+        attempts += 1
+        if player_guess < number_to_guess:
+            print("Too low, try again!")
+        elif player_guess > number_to_guess:
+            print("Too high, give it another shot!")
+        else:
+            print("Spot on! Great job!")
+            return attempts
+
+def play():
+    print("Hi there! Ready to play? Press q to quit or any key to begin.")
+    game_count = 0
+    guess_count = 0
+    while True:
+        start = input("Press q to exit or any key to start: ")
+        if start.lower() == 'q':
+            break
+        guesses_this_game = run_game()
+        if guesses_this_game is None:
+            break
+        game_count += 1
+        guess_count += guesses_this_game
+        print(f"Nice! It took you {guesses_this_game} tries this round.")
+    if game_count > 0:
+        avg_guesses = guess_count / game_count
+        print("\nGame Results")
+        print("________________________")
+        print(f"Total Rounds Played: {game_count}")
+        print(f"Total Guesses Made: {guess_count}")
+        print(f"Average Guesses per Round: {avg_guesses:.2f}")
+        print("________________________")
+    print("See you next time!")
+
+if __name__ == "__main__":
+    play()
